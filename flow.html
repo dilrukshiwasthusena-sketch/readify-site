@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Readify | Reading Flow</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a0f2e, #2d1b4e);
+      color: #f5f5f5;
+      min-height: 100vh;
+    }
+
+    /* Navbar */
+    .navbar {
+      background: #2d1b4e;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+
+    .logo {
+      font-size: 1.6rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .logo:hover {
+      color: #7c4dcc;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      color: #f5f5f5;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: #7c4dcc;
+    }
+
+    .hamburger {
+      display: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #f5f5f5;
+    }
+
+    /* Main Content */
+    .flow-page {
+      max-width: 800px;
+      margin: 3rem auto;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .flow-page h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      color: #f5f5f5;
+    }
+
+    .page-subtitle {
+      font-size: 1.1rem;
+      color: #7c4dcc;
+      margin-bottom: 2rem;
+      opacity: 0.9;
+    }
+
+    /* Flow Cards */
+    .flow-card {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(124, 77, 204, 0.3);
+      padding: 2rem;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .flow-card h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      color: #7c4dcc;
+    }
+
+    /* Input and Button */
+    #dailyMinutes {
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      border: 2px solid #7c4dcc;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #f5f5f5;
+      width: 200px;
+      margin-right: 0.5rem;
+      transition: 0.3s;
+    }
+
+    #dailyMinutes:focus {
+      outline: none;
+      background: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 0 10px rgba(124, 77, 204, 0.5);
+    }
+
+    #dailyMinutes::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    button {
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      background: #7c4dcc;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #9966dd;
+      transform: translateY(-2px);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    #goalMessage {
+      margin-top: 1rem;
+      font-size: 1rem;
+      color: #10b981;
+      min-height: 20px;
+    }
+
+    /* Tips Section */
+    .flow-tips {
+      list-style: none;
+      text-align: left;
+      display: inline-block;
+    }
+
+    .flow-tips li {
+      padding: 0.75rem 0;
+      font-size: 1.1rem;
+      border-bottom: 1px solid rgba(124, 77, 204, 0.2);
+    }
+
+    .flow-tips li:last-child {
+      border-bottom: none;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 1rem;
+      }
+
+      .logo {
+        font-size: 1.3rem;
+      }
+
+      .nav-links {
+        display: none;
+        position: fixed;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        flex-direction: column;
+        background: #2d1b4e;
+        gap: 0;
+        padding: 0;
+        z-index: 99;
+        border-top: 1px solid #4a2d7f;
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .nav-links li {
+        border-bottom: 1px solid #4a2d7f;
+      }
+
+      .nav-links a {
+        display: block;
+        padding: 1rem;
+        text-align: left;
+      }
+
+      .hamburger {
+        display: block;
+      }
+
+      .flow-page {
+        padding: 1rem;
+        margin: 2rem auto;
+      }
+
+      .flow-page h1 {
+        font-size: 1.8rem;
+      }
+
+      .flow-card {
+        padding: 1.5rem;
+      }
+
+      #dailyMinutes {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 0.5rem;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .navbar {
+        padding: 0.75rem;
+      }
+
+      .logo {
+        font-size: 1.1rem;
+      }
+
+      .flow-page h1 {
+        font-size: 1.5rem;
+      }
+
+      .flow-card h2 {
+        font-size: 1.2rem;
+      }
+
+      .page-subtitle {
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="logo" onclick="goHome()">Readify</div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="explorer.html">Explorer</a></li>
+    <li><a href="tracker.html">Tracker</a></li>
+    <li><a href="recommender.html">Recommender</a></li>
+    <li><a class="active" href="flow.html">Flow</a></li>
+    <li><a href="feedback.html">Feedback</a></li>
+  </ul>
+  <div class="hamburger" onclick="toggleMenu()">☰</div>
+</nav>
+
+<main class="flow-page">
+  <h1>Your Reading Flow</h1>
+  <p class="page-subtitle">Build a calm daily reading habit 🌿</p>
+
+  <div class="flow-card">
+    <h2>Daily Reading Goal</h2>
+    <input type="number" id="dailyMinutes" placeholder="Minutes per day" min="1">
+    <button onclick="saveDailyGoal()">Save</button>
+    <p id="goalMessage"></p>
+  </div>
+
+  <div class="flow-card">
+    <h2>💡 Tips for Better Reading Flow</h2>
+    <ul class="flow-tips">
+      <li>📖 Same time every day</li>
+      <li>☕ Pair with a habit</li>
+      <li>📱 No phone</li>
+      <li>🎧 Calm music</li>
+    </ul>
+  </div>
+</main>
+
+<script>
+  // Hamburger menu toggle
+  function toggleMenu() {
+    const navLinks = document.getElementById('navLinks');
+    navLinks.classList.toggle('active');
+  }
+
+  // Close menu when clicking a link
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', function() {
+      document.getElementById('navLinks').classList.remove('active');
+    });
+  });
+
+  // Close menu when clicking outside
+  document.addEventListener('click', function(event) {
+    const navbar = document.querySelector('.navbar');
+    if (!navbar.contains(event.target)) {
+      document.getElementById('navLinks').classList.remove('active');
+    }
+  });
+
+  // Logo click to go home
+  function goHome() {
+    window.location.href = 'index.html';
+  }
+
+  // Save daily goal
+  function saveDailyGoal() {
+    const minutes = document.getElementById('dailyMinutes').value;
+    const messageBox = document.getElementById('goalMessage');
+
+    if (!minutes || minutes <= 0) {
+      messageBox.textContent = '❌ Please enter a valid number';
+      messageBox.style.color = '#ef4444';
+      return;
+    }
+
+    // Save to localStorage
+    localStorage.setItem('dailyReadingGoal', minutes);
+
+    // Show success message
+    messageBox.textContent = `✅ Goal saved! You're aiming for ${minutes} minutes per day`;
+    messageBox.style.color = '#10b981';
+
+    // Clear input after 2 seconds
+    setTimeout(() => {
+      document.getElementById('dailyMinutes').value = '';
+    }, 1000);
+  }
+
+  // Load saved goal on page load
+  window.addEventListener('load', function() {
+    const savedGoal = localStorage.getItem('dailyReadingGoal');
+    if (savedGoal) {
+      document.getElementById('dailyMinutes').value = savedGoal;
+      document.getElementById('goalMessage').textContent = `✅ Your current goal: ${savedGoal} minutes per day`;
+      document.getElementById('goalMessage').style.color = '#10b981';
+    }
+  });
+
+  // Allow Enter key to save
+  document.getElementById('dailyMinutes').addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+      saveDailyGoal();
+    }
+  });
+</script>
+
+</body>
+</html>

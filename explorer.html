@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Readify | Book Explorer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a0f2e, #2d1b4e);
+      color: #f5f5f5;
+      min-height: 100vh;
+    }
+
+    .navbar {
+      background: #2d1b4e;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+
+    .logo {
+      font-size: 1.6rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .logo:hover { color: #7c4dcc; }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      color: #f5f5f5;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    .nav-links a:hover, .nav-links a.active { color: #7c4dcc; }
+
+    .hamburger {
+      display: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #f5f5f5;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 3rem auto;
+      padding: 0 1rem;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .header p {
+      font-size: 1rem;
+      color: #7c4dcc;
+    }
+
+    .filter-section {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      background: rgba(255,255,255,0.08);
+      padding: 1.5rem;
+      border-radius: 12px;
+    }
+
+    .filter-section input,
+    .filter-section select {
+      padding: 0.75rem 1rem;
+      border: 2px solid #7c4dcc;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.1);
+      color: #f5f5f5;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.95rem;
+    }
+
+    .filter-section select option {
+      background: #2d1b4e;
+      color: #f5f5f5;
+    }
+
+    .filter-section input::placeholder {
+      color: rgba(255,255,255,0.6);
+    }
+
+    .filter-section input:focus,
+    .filter-section select:focus {
+      outline: none;
+      background: rgba(255,255,255,0.15);
+      box-shadow: 0 0 10px rgba(124, 77, 204, 0.5);
+    }
+
+    .filter-section button {
+      padding: 0.75rem 1rem;
+      background: #7c4dcc;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .filter-section button:hover {
+      background: #9966dd;
+      transform: translateY(-2px);
+    }
+
+    .books-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .book-card {
+      background: rgba(255,255,255,0.08);
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: 1px solid rgba(124, 77, 204, 0.3);
+    }
+
+    .book-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(124, 77, 204, 0.3);
+      border-color: #7c4dcc;
+    }
+
+    .book-img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      background: linear-gradient(135deg, #7c4dcc, #2d1b4e);
+      display: block;
+    }
+
+    .book-info {
+      padding: 1.5rem;
+    }
+
+    .book-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .book-author {
+      font-size: 0.9rem;
+      color: #7c4dcc;
+      margin-bottom: 0.75rem;
+    }
+
+    .book-genre {
+      display: inline-block;
+      background: #000;
+      color: #fff;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    .book-rating {
+      color: #ffd700;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    .view-btn {
+      width: 100%;
+      padding: 0.7rem;
+      background: #7c4dcc;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .view-btn:hover {
+      background: #9966dd;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-content {
+      background: #2d1b4e;
+      width: 90%;
+      max-width: 600px;
+      border-radius: 12px;
+      overflow-y: auto;
+      max-height: 80vh;
+      padding: 2rem;
+      border: 2px solid #7c4dcc;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid #7c4dcc;
+      padding-bottom: 1rem;
+    }
+
+    .modal-header h2 {
+      font-size: 1.8rem;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      color: #f5f5f5;
+      font-size: 1.8rem;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .close-btn:hover {
+      color: #7c4dcc;
+    }
+
+    .modal-section {
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-section h3 {
+      color: #7c4dcc;
+      margin-bottom: 0.8rem;
+      font-size: 1.1rem;
+    }
+
+    .book-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .book-list li {
+      padding: 0.75rem;
+      background: rgba(255,255,255,0.08);
+      margin-bottom: 0.5rem;
+      border-left: 3px solid #7c4dcc;
+      border-radius: 4px;
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 3rem;
+      color: #7c4dcc;
+      font-size: 1.1rem;
+    }
+
+    @media (max-width: 768px) {
+      .navbar { padding: 1rem; }
+      .logo { font-size: 1.3rem; }
+      .nav-links { display: none; position: fixed; top: 60px; left: 0; width: 100%; flex-direction: column; background: #2d1b4e; gap: 0; padding: 0; z-index: 99; border-top: 1px solid #4a2d7f; }
+      .nav-links.active { display: flex; }
+      .nav-links li { border-bottom: 1px solid #4a2d7f; }
+      .nav-links a { display: block; padding: 1rem; }
+      .hamburger { display: block; }
+      .filter-section { grid-template-columns: 1fr; }
+      .books-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; }
+      .header h1 { font-size: 1.8rem; }
+      .modal-content { width: 95%; }
+    }
+
+    @media (max-width: 480px) {
+      .books-grid { grid-template-columns: 1fr; }
+      .header h1 { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="logo" onclick="goHome()">Readify</div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="explorer.html" class="active">Explorer</a></li>
+    <li><a href="tracker.html">Tracker</a></li>
+    <li><a href="recommender.html">Recommender</a></li>
+    <li><a href="flow.html">Flow</a></li>
+    <li><a href="feedback.html">Feedback</a></li>
+  </ul>
+  <div class="hamburger" onclick="toggleMenu()">☰</div>
+</nav>
+
+<div class="container">
+  <div class="header">
+    <h1>📚 Book Explorer</h1>
+    <p>Discover your next favorite book</p>
+  </div>
+
+  <div class="filter-section">
+    <input type="text" id="searchInput" placeholder="Search by title or author...">
+    <select id="genreFilter">
+      <option value="">All Genres</option>
+      <option value="Fiction">Fiction</option>
+      <option value="Fantasy">Fantasy</option>
+      <option value="Science Fiction">Science Fiction</option>
+      <option value="Mystery">Mystery</option>
+      <option value="Thriller">Thriller</option>
+    </select>
+    <button onclick="resetFilters()">Reset</button>
+  </div>
+
+  <div class="books-grid" id="booksGrid"></div>
+  <div class="no-results" id="noResults" style="display:none;">No books found. Try different keywords!</div>
+</div>
+
+<div class="modal" id="bookModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 id="modalTitle"></h2>
+      <button class="close-btn" onclick="closeModal()">&times;</button>
+    </div>
+
+    <div class="modal-section">
+      <h3>Synopsis</h3>
+      <p id="modalSynopsis"></p>
+    </div>
+
+    <div class="modal-section">
+      <h3>Rating</h3>
+      <p id="modalRating"></p>
+    </div>
+
+    <div class="modal-section" id="sequelsSection" style="display:none;">
+      <h3>Related Books</h3>
+      <ul class="book-list" id="sequelsList"></ul>
+    </div>
+
+    <div class="modal-section">
+      <h3>Reviews</h3>
+      <ul class="book-list" id="reviewsList"></ul>
+    </div>
+
+    <button class="view-btn" onclick="saveBook()" id="saveBtn">Save Book</button>
+  </div>
+</div>
+
+<script>
+  const booksData = [
+    { id: 1, title: "The Midnight Library", author: "Matt Haig", genre: "Fiction", image: "https://covers.openlibrary.org/b/id/8234819-M.jpg", rating: 4.5, synopsis: "A woman explores alternate lives before death.", sequels: ["Midnight Library: Extended"], reviews: ["Amazing read!", "Life-changing", "Highly recommended"] },
+    { id: 2, title: "Dune", author: "Frank Herbert", genre: "Science Fiction", image: "https://covers.openlibrary.org/b/id/7986841-M.jpg", rating: 4.8, synopsis: "Epic space adventure on a desert planet.", sequels: ["Dune: Messiah", "Children of Dune"], reviews: ["Masterpiece", "Complex but rewarding", "Best sci-fi ever"] },
+    { id: 3, title: "The Girl on the Train", author: "Paula Hawkins", genre: "Mystery", image: "https://covers.openlibrary.org/b/id/8417149-M.jpg", rating: 4.2, synopsis: "A woman becomes obsessed with a couple she watches.", sequels: [], reviews: ["Page turner", "Gripping", "Couldn't put it down"] }
+  ];
+
+  let currentBook = null;
+
+  function displayBooks(books) {
+    const grid = document.getElementById('booksGrid');
+    const noResults = document.getElementById('noResults');
+    
+    if (books.length === 0) {
+      grid.innerHTML = '';
+      noResults.style.display = 'block';
+      return;
+    }
+
+    noResults.style.display = 'none';
+    grid.innerHTML = books.map(book => `
+      <div class="book-card" onclick="openModal(${book.id})">
+        <img src="${book.image}" class="book-img" loading="lazy">
+        <div class="book-info">
+          <h3 class="book-title">${book.title}</h3>
+          <p class="book-author">by ${book.author}</p>
+          <span class="book-genre">${book.genre}</span>
+          <div class="book-rating">⭐ ${book.rating}/5</div>
+          <button class="view-btn">View Details</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function filterBooks() {
+    const search = document.getElementById('searchInput').value.toLowerCase();
+    const genre = document.getElementById('genreFilter').value;
+    const filtered = booksData.filter(b => 
+      (b.title.toLowerCase().includes(search) || b.author.toLowerCase().includes(search)) &&
+      (!genre || b.genre === genre)
+    );
+    displayBooks(filtered);
+  }
+
+  function resetFilters() {
+    document.getElementById('searchInput').value = '';
+    document.getElementById('genreFilter').value = '';
+    displayBooks(booksData);
+  }
+
+  function openModal(id) {
+    currentBook = booksData.find(b => b.id === id);
+    document.getElementById('modalTitle').textContent = currentBook.title;
+    document.getElementById('modalSynopsis').textContent = currentBook.synopsis;
+    document.getElementById('modalRating').textContent = `⭐ ${currentBook.rating}/5 rating`;
+
+    if (currentBook.sequels.length > 0) {
+      document.getElementById('sequelsSection').style.display = 'block';
+      document.getElementById('sequelsList').innerHTML = currentBook.sequels.map(s => `<li>📖 ${s}</li>`).join('');
+    } else {
+      document.getElementById('sequelsSection').style.display = 'none';
+    }
+
+    document.getElementById('reviewsList').innerHTML = currentBook.reviews.map(r => `<li>💬 ${r}</li>`).join('');
+    document.getElementById('bookModal').classList.add('show');
+  }
+
+  function closeModal() {
+    document.getElementById('bookModal').classList.remove('show');
+  }
+
+  function saveBook() {
+    let saved = JSON.parse(localStorage.getItem('savedBooks')) || [];
+    if (!saved.some(b => b.id === currentBook.id)) {
+      saved.push({ id: currentBook.id, title: currentBook.title });
+      localStorage.setItem('savedBooks', JSON.stringify(saved));
+      document.getElementById('saveBtn').textContent = '✅ Saved!';
+    }
+  }
+
+  function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('active');
+  }
+
+  function goHome() {
+    window.location.href = 'index.html';
+  }
+
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', function() {
+      document.getElementById('navLinks').classList.remove('active');
+    });
+  });
+
+  document.getElementById('searchInput').addEventListener('input', filterBooks);
+  document.getElementById('genreFilter').addEventListener('change', filterBooks);
+  document.getElementById('bookModal').addEventListener('click', e => e.target === e.currentTarget && closeModal());
+
+  displayBooks(booksData);
+</script>
+
+</body>
+</html>

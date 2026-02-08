@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Readify | Feedback</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="logo">Readify</div>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="explorer.html">Explorer</a></li>
+    <li><a href="tracker.html">Tracker</a></li>
+    <li><a href="recommender.html">Recommender</a></li>
+    <li><a href="flow.html">Flow</a></li>
+    <li><a class="active" href="feedback.html">Feedback</a></li>
+  </ul>
+</nav>
+
+<main class="feedback-page">
+  <h1>Feedback</h1>
+  <p>We’d love to hear from you 😊</p>
+
+  <!-- FEEDBACK FORM -->
+  <form id="feedbackForm" class="feedback-form">
+    <input type="text" id="name" placeholder="Your Name">
+    <input type="email" id="email" placeholder="Your Email">
+    <textarea id="message" placeholder="Your Message"></textarea>
+    <button type="submit">Submit</button>
+  </form>
+
+  <p id="confirmMessage"></p>
+
+  <!-- FAQ SECTION -->
+  <h2>FAQ</h2>
+
+  <div class="faq-item">
+    <button class="faq-question">How does Readify work?</button>
+    <p class="faq-answer">Readify helps you explore books and track your reading progress.</p>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question">Is my data saved?</button>
+    <p class="faq-answer">Yes, your data is saved locally in your browser.</p>
+  </div>
+
+</main>
+
+<script src="js/main.js"></script>
+
+<script>
+  // Make logo clickable on all pages to go to home
+  document.querySelector('.logo').addEventListener('click', function() {
+    window.location.href = 'index.html';
+  });
+
+  // Hamburger menu toggle
+  function toggleMenu() {
+    const navLinks = document.getElementById('navLinks');
+    if (navLinks) {
+      navLinks.classList.toggle('active');
+    }
+  }
+
+  // Close menu when clicking a link
+  if (document.querySelectorAll('.nav-links a').length > 0) {
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', function() {
+        const navLinks = document.getElementById('navLinks');
+        if (navLinks) {
+          navLinks.classList.remove('active');
+        }
+      });
+    });
+  }
+
+  // Close menu when clicking outside
+  document.addEventListener('click', function(event) {
+    const navbar = document.querySelector('.navbar');
+    const navLinks = document.getElementById('navLinks');
+    if (navbar && navLinks && !navbar.contains(event.target)) {
+      navLinks.classList.remove('active');
+    }
+  });
+</script>
+</body>
+</html>

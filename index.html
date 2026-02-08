@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Readify | Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="assets/favicon.ico">
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<header>
+  <nav class="navbar">
+    <div class="logo">Readify</div>
+
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="explorer.html">Book Explorer</a></li>
+      <li><a href="tracker.html">Progress Tracker</a></li>
+      <li><a href="recommender.html">Recommender</a></li>
+      <li><a href="flow.html">Reading Flow</a></li>
+      <li><a href="feedback.html">Feedback</a></li>
+    </ul>
+
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+  </nav>
+</header>
+
+<!-- HERO SECTION -->
+<main class="home-hero">
+  <div class="hero-text">
+
+    <div class="quote-box">
+      <p id="quoteText" class="quote-text"></p>
+      <p id="quoteSource" class="quote-source"></p>
+    </div>
+
+    <div class="author-day">
+      <h3>Author of the Day</h3>
+      <p id="authorDayName"></p>
+      <p id="authorDayDesc"></p>
+    </div>
+
+  </div>
+
+  <div class="hero-image"></div>
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <h3>Join the Readify Newsletter</h3>
+  <form id="newsletterForm">
+    <input type="email" id="newsletterEmail" placeholder="Enter your email" required>
+    <button type="submit">Subscribe</button>
+  </form>
+  <p class="footer-note">© 2025 Readify. All rights reserved.</p>
+</footer>
+
+<script src="js/main.js"></script>
+
+<script>
+  // Make logo clickable to scroll to home
+  document.querySelector('.logo').addEventListener('click', function() {
+    document.querySelector('.home-hero').scrollIntoView({ behavior: 'smooth' });
+  });
+
+  // Hamburger menu toggle
+  function toggleMenu() {
+    const navLinks = document.getElementById('navLinks');
+    navLinks.classList.toggle('active');
+  }
+</script>
+</body>
+</html>
+
+<script src="js/main.js"></script>
+
+<script>
+  // Make logo clickable to scroll to home
+  document.querySelector('.logo').addEventListener('click', function() {
+    document.querySelector('.home-hero').scrollIntoView({ behavior: 'smooth' });
+  });
+
+  // Hamburger menu toggle
+  function toggleMenu() {
+    const navLinks = document.getElementById('navLinks');
+    navLinks.classList.toggle('active');
+  }
+
+  // Close menu when clicking on a link
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', function() {
+      document.getElementById('navLinks').classList.remove('active');
+    });
+  });
+
+  // Close menu when clicking outside
+  document.addEventListener('click', function(event) {
+    const header = document.querySelector('header');
+    const navLinks = document.getElementById('navLinks');
+    if (!header.contains(event.target)) {
+      navLinks.classList.remove('active');
+    }
+  });
+</script>
